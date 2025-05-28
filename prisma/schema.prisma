@@ -22,3 +22,21 @@ model Car {
   available   Boolean
   soldAt      DateTime?
 }
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  age       Int
+  phone     String
+  email     String
+}
+
+model Administrator {
+  id                String   @id @default(uuid())
+  name              String
+  age               Int
+  email             String   @unique
+  phone             String
+  suggestions       String
+  authorizationCode String
+}
