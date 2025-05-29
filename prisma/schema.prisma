@@ -18,9 +18,10 @@ model Car {
   brand       String
   model       String
   year        Int
-  price       Float
-  available   Boolean
+  price        Decimal @db.Decimal(10, 2)
+  status      CarStatus  @default(AVAILABLE)
   soldAt      DateTime?
+  sales       Sale[]
 }
 
 model Client {
@@ -28,7 +29,8 @@ model Client {
   name      String
   age       Int
   phone     String
-  email     String
+  email     String @unique
+  sales     Sale[]
 }
 
 model Administrator {
@@ -37,6 +39,46 @@ model Administrator {
   age               Int
   email             String   @unique
   phone             String
-  suggestions       String
   authorizationCode String
+}
+
+model Seller {
+  id        String   @id @default(uuid())
+  name      String
+  age       Int
+  email     String   @unique
+  phone     String
+  sales     Sale[]
+  processedReturns Return[] @relation("ProcessedReturns")
+  createdAt DateTime @default(now())
+}
+
+model Sale {
+  id        String   @id @default(uuid())
+  amount    Decimal  @db.Decimal(10, 2)
+  date      DateTime @default(now())
+   car       Car      @relation(fields: [carId], references: [id])
+  carId    String
+   client    Client   @relation(fields: [clientId], references: [id])
+    clientId  String
+  seller    Seller   @relation(fields: [sellerId], references: [id]) 
+  sellerId  String
+  returns Return[]
+}
+
+model Return {
+  id          String   @id @default(uuid())
+  reason      String
+  amount      Decimal  @db.Decimal(10, 2)
+  date        DateTime @default(now())
+  sale        Sale     @relation(fields: [saleId], references: [id])
+  saleId      String
+  processedBy Seller?  @relation(fields: [sellerId], references: [id], name: "ProcessedReturns")
+  sellerId    String? 
+}
+
+enum CarStatus {
+  AVAILABLE
+  SOLD
+  MAINTENANCE
 }
