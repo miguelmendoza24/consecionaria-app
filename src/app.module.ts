@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CarModule } from './car/car.module';
 import { PrismaModule } from './database/database.module';
-import { ClientModule } from './client/client.module';
+import { ClientModule } from './infrastructure/modules/client.module';
 import { AdministratorModule } from './administrator/administrator.module';
 import { SellerModule } from './seller/seller.module';
 import { SaleModule } from './sale/sale.module';
