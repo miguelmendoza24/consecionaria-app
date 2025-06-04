@@ -1,7 +1,5 @@
-
-import { Client } from "src/domain/entities/client.entity";
-import { ClientRepository } from "src/domain/repositories/client.repository";
-
+import { Client } from 'src/domain/entities/client.entity';
+import { ClientRepository } from 'src/infrastructure/database/repositories/client.repository';
 
 export class RegisterClientUseCase {
   constructor(private readonly clientRepository: ClientRepository) {}

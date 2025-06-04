@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { RegisterClientUseCase } from 'src/aplication/use-cases/client.use-case';
 import { PrismaService } from 'src/database/database.service';
-import { PrismaClientRepository } from 'src/infrastructure/database/prisma-client.repository';
-import { ClientService } from 'src/aplication/services/client.service';
+import { PrismaClientRepository } from 'src/infrastructure/database/repositories/prisma-client.repository';
+import { ClientService } from 'src/infrastructure/services/client.service';
 import { Prisma } from '@prisma/client';
 
 @Controller('client')
