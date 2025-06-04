@@ -77,6 +77,14 @@ model Return {
   sellerId    String? 
 }
 
+model User {
+  id       String     @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  age     Int
+}
+
 enum CarStatus {
   AVAILABLE
   SOLD
