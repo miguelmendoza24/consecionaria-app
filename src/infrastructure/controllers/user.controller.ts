@@ -1,9 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { RegisterUserUseCase } from 'src/aplication/use-cases/register-user.use-case';
+import { LoginUserUseCase } from 'src/aplication/use-cases/login-user.use-case';
+import { LoginUserDTO } from 'src/domain/dto/loging-user.dto';
+
 
 @Controller('auth')
 export class UserController {
- constructor(  private readonly registerUseCase: RegisterUserUseCase) { }
+  constructor(private readonly registerUseCase: RegisterUserUseCase,
+   private readonly loginUseCase: LoginUserUseCase
+ ) { }
   
   @Post('register')
   async register(
@@ -16,4 +21,14 @@ export class UserController {
       user,
     };
   }
-}
+
+  @Post('login')
+  async login(@Body() loginDTO: LoginUserDTO) {
+    const { email, password } = loginDTO;
+    const user = await this.loginUseCase.execute(email, password)
+    return {
+      message: 'Login seccesful',
+      ...user,
+      }
+    }
+  }

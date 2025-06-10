@@ -26,7 +26,7 @@ import { PrismaService } from './database/database.service';
     ReturnModule,
     AuthModule,
   ],
-  controllers: [AppController,UserController],
+  controllers: [AppController],
   providers: [
     PrismaService,
     AppService,

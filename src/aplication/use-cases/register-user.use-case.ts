@@ -1,6 +1,7 @@
 import { IUserRepository } from 'src/domain/interfaces/user.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/domain/entities/user.entity';
+import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class RegisterUserUseCase {
@@ -15,7 +16,8 @@ export class RegisterUserUseCase {
     age: number;
   }) {
     const { name, email, password, age } = data;
-    const user = new User(name, email, password, age)
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User(name, email, hashedPassword, age);
     return this.userRepository.save(user);
   }
 }
