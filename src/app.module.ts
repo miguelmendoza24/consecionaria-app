@@ -8,6 +8,12 @@ import { AdministratorModule } from './administrator/administrator.module';
 import { SellerModule } from './seller/seller.module';
 import { SaleModule } from './sale/sale.module';
 import { ReturnModule } from './return/return.module';
+import { RegisterUserUseCase } from './aplication/use-cases/register-user.use-case';
+import { PrismaUserRepository } from './infrastructure/database/repositories/prisma-user.repository';
+import { BcryptPasswordHasher } from './infrastructure/services/bcrypt-password-hasher.service';
+import { AuthModule } from './auth/auth.module';
+import { UserController } from './infrastructure/controllers/user.controller';
+import { PrismaService } from './database/database.service';
 
 @Module({
   imports: [
@@ -18,8 +24,22 @@ import { ReturnModule } from './return/return.module';
     SellerModule,
     SaleModule,
     ReturnModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    PrismaService,
+    AppService,
+    {
+      provide: 'IUserRepository',
+      useClass: PrismaUserRepository,
+    },
+    {
+      provide: 'IPasswordHasher',
+      useClass: BcryptPasswordHasher,
+    },
+    RegisterUserUseCase,
+  ],
+  exports:[RegisterUserUseCase],
 })
 export class AppModule {}
